@@ -63,6 +63,13 @@ public class FileHandler {
 
     }
     
+    protected void startImport(String fileContent){
+        ESNbuddyMatcher.imp.setBuddyList(fileContent);
+        ESNbuddyMatcher.imp.setHeader();
+    }
+    
+    
+    
     private int convertInterest(String answer){
         if (answer.contains(ESNbuddyMatcher.NO)) return 1;
         else if (answer.contains(ESNbuddyMatcher.MAYBE)) return 2;
@@ -84,57 +91,52 @@ public class FileHandler {
         else return 0;
     }
     
-    protected void readLocalBuddies(String fileContent){
-        String[] lines = fileContent.split("\n");
-        int firstBuddyOffset = 3;
+    protected void readLocalBuddies(String fileContent, int header, int nbInterests, 
+            int firstInterestIndex, int firstNameIndex, int lastNameIndex,
+            int phoneIndex, int mailIndex, int genderIndex, int ageIndex, 
+            int facebookIndex, int countryIndex, int[] wishList, int[] interestIndexes,
+            int wish1Index, int wish2Index, int wish3Index, int maxBuddyIndex){
         
-        int[] interests = new int[NB_INTERESTS];
+        String[] lines = fileContent.split("\n");
+        int firstBuddyOffset = header + 1;
+        
+        int[] interests = new int[nbInterests];
         
         for(int i = firstBuddyOffset; i<lines.length; i++){
             
-            String[] answers = lines[i].split("\"\\|\"");
-            String firstName = answers[7];
-            String phone = answers[9];
-            String lastName = answers[8];
-            String mail = answers[10];
-            String gender = answers[11];
-            int age = Integer.parseInt(answers[12]);
-            interests[Interests.BACKPACKING.ordinal()] = convertInterest(answers[13]);
-            interests[Interests.CINEMA.ordinal()] = convertInterest(answers[14]);
-            interests[Interests.COOKING.ordinal()] = convertInterest(answers[15]);
-            interests[Interests.CONCERTS.ordinal()] = convertInterest(answers[16]);
-            interests[Interests.DANCING.ordinal()] = convertInterest(answers[17]);
-            interests[Interests.HIKING.ordinal()] = convertInterest(answers[18]);
-            interests[Interests.MUSIC.ordinal()] = convertInterest(answers[19]);
-            interests[Interests.PARTY.ordinal()] = convertInterest(answers[20]);
-            interests[Interests.PHOTO.ordinal()] = convertInterest(answers[21]);
-            interests[Interests.READING.ordinal()] = convertInterest(answers[22]);
-            interests[Interests.TEAMSPORTS.ordinal()] = convertInterest(answers[23]);
-            interests[Interests.VOLLEY.ordinal()] = convertInterest(answers[24]);
-            interests[Interests.BASKET.ordinal()] = convertInterest(answers[25]);
-            interests[Interests.FOOT.ordinal()] = convertInterest(answers[26]);
-            interests[Interests.WATER.ordinal()] = convertInterest(answers[27]);
-            interests[Interests.SKI.ordinal()] = convertInterest(answers[28]);
-            interests[Interests.VOLUNTEERING.ordinal()] = convertInterest(answers[29]);
+            String[] answers = lines[i].split("\"\\,\"");
+            String firstName = answers[firstNameIndex];
+            String phone = answers[phoneIndex];
+            String lastName = answers[lastNameIndex];
+            String mail = answers[mailIndex];
+            String gender = answers[genderIndex];
+            int age = Integer.parseInt(answers[ageIndex]);
+            for(int j=0; j<nbInterests; j++){
+                interests[j] = Integer.parseInt(answers[firstInterestIndex+j]);
+            }
+            String facebook = answers[facebookIndex];
+            String country = answers[countryIndex];
+            //String languages = answers[35];
+            //String studylevel = answers[34];
+            String wish1, wish2, wish3;
+            if(wish1Index>0) wish1 = answers[wish1Index];
+            if(wish2Index>0) wish2 = answers[wish2Index];
+            if(wish3Index>0) wish3 = answers[wish3Index];
             
-            String facebook = answers[30];
-            String country = answers[33];
-            String languages = answers[35];
-            String studylevel = answers[34];
-            String wish1 = answers[36];
-            String wish2 = answers[37];
-            String wish3 = answers[38];
+            //ToDo: comma separated wishlist
             
-            int nb_buddies = decodeBuddyNb(answers[39]);
-            /*
+            int nb_buddies = 10;
+            if(maxBuddyIndex>0) nb_buddies = Integer.parseInt(answers[maxBuddyIndex]);
+            
+            
             for(int j = 0; j<answers.length; j++){
             if(i==4) System.out.println(answers[j]);
             }
-             */
             
-            LocalBuddy buddy = new LocalBuddy(firstName,lastName,gender, country,mail,phone,age,interests,facebook,studylevel,languages,nb_buddies,wish1,wish2,wish3);
-            if(!ESNbuddyMatcher.window.exists(buddy)) ESNbuddyMatcher.window.addLocalBuddy(buddy);
-        }
+            
+            //LocalBuddy buddy = new LocalBuddy(firstName,lastName,gender, country,mail,phone,age,interests,facebook,studylevel,languages,nb_buddies,wish1,wish2,wish3);
+            //if(!ESNbuddyMatcher.window.exists(buddy)) ESNbuddyMatcher.window.addLocalBuddy(buddy);
+        } 
         
     }
     

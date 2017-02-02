@@ -12,6 +12,7 @@ package esnbuddymatcher;
 public class ESNbuddyMatcher {
     
     public static Window window;
+    public static ImportDialog imp;
     public static final int ERROR = 77;
     public static final int SUCCESS = 42;
     public static final int LOCAL = 11;
@@ -35,6 +36,8 @@ public class ESNbuddyMatcher {
     public static void main(String[] args) {
         window = new Window();
         window.setVisible(true);
+        imp = new ImportDialog();
+        imp.setVisible(false);
     }
 
 

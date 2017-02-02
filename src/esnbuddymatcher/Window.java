@@ -35,6 +35,10 @@ public class Window extends javax.swing.JFrame {
         
     }
     
+    public FileHandler getFileHandler(){
+        return fileHandler;
+    }
+    
     public boolean exists(ExchangeBuddy b){
         Iterator<ExchangeBuddy> it = exchangeBuddies.iterator();
         while(it.hasNext())
@@ -61,6 +65,17 @@ public class Window extends javax.swing.JFrame {
     
     public void addLocalBuddy(LocalBuddy b){
         localBuddies.add(b);
+    }
+    
+    public void importExchange(String fileContent){
+        fileHandler.readExchangeBuddies(fileContent);
+                exchangeImported = true;
+                exchangeValue.setText(exchangeBuddies.size()+"");
+    }
+    
+    public void localsImported(){
+        localsImported = true;
+        localsValue.setText(localBuddies.size()+"");
     }
     
     
@@ -127,7 +142,7 @@ public class Window extends javax.swing.JFrame {
     
     private String prepareOutputData(){
         
-        String fs = "|"; //field separator
+        String fs = ","; //field separator
         String ls = "\n"; //line separator
         String output = "Local Buddies"+emptyLine(fs)+"Exchange Buddies"+emptyLine(fs)+ls;
         output += getOutputHeader(fs);
@@ -224,6 +239,7 @@ public class Window extends javax.swing.JFrame {
         saveButton = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -288,6 +304,9 @@ public class Window extends javax.swing.JFrame {
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/logo_pack/88x31.png"))); // NOI18N
 
+        jLabel11.setFont(new java.awt.Font("Ubuntu", 0, 8)); // NOI18N
+        jLabel11.setText("IMPORTANT: The file has to be tab-separated. Multiple languages have to be separated by commas.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -300,7 +319,7 @@ public class Window extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -331,7 +350,9 @@ public class Window extends javax.swing.JFrame {
                                 .addComponent(startMatching)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(8, 8, 8))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -364,7 +385,9 @@ public class Window extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(importButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(importButton)
+                    .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(localsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -396,7 +419,14 @@ public class Window extends javax.swing.JFrame {
         String filename = fileHandler.chooseCSVfile();
         String fileContent = fileHandler.readFromFile(filename);
         if(fileContent.equals("")) output.setText("Error reading File\n");
-        int fileFormat = fileHandler.checkFormat(fileContent);
+        //int fileFormat = fileHandler.checkFormat(fileContent);
+        else{
+            ESNbuddyMatcher.imp.setVisible(true);
+            fileHandler.startImport(fileContent);
+        }
+        
+        
+        /*
         switch (fileFormat) {
             case ESNbuddyMatcher.ERROR:
                 output.setText("Error: Format of the file. Please check info page!\n");
@@ -414,7 +444,7 @@ public class Window extends javax.swing.JFrame {
             default:
                 break;
         }
-        
+        */
         
     }//GEN-LAST:event_importButtonActionPerformed
 
@@ -486,6 +516,7 @@ public class Window extends javax.swing.JFrame {
     private javax.swing.JSlider interestSlider;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
