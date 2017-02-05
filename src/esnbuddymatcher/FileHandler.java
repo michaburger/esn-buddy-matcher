@@ -92,9 +92,9 @@ public class FileHandler {
     }
     
     protected void readLocalBuddies(String fileContent, int header, int nbInterests, 
-            int firstInterestIndex, int firstNameIndex, int lastNameIndex,
+            int firstNameIndex, int lastNameIndex,
             int phoneIndex, int mailIndex, int genderIndex, int ageIndex, 
-            int facebookIndex, int countryIndex, int[] wishList, int[] interestIndexes,
+            int facebookIndex, int[] interestIndexes,
             int wish1Index, int wish2Index, int wish3Index, int maxBuddyIndex){
         
         String[] lines = fileContent.split("\n");
@@ -104,21 +104,32 @@ public class FileHandler {
         
         for(int i = firstBuddyOffset; i<lines.length; i++){
             
-            String[] answers = lines[i].split("\"\\,\"");
+            String[] answers = lines[i].split("\t\\||\\|");
+            
+            /*
+            System.out.println(lines[i]);
+            for(int j=0; j<answers.length; j++){
+                System.out.println(answers[j]);
+            }
+            */
+            
             String firstName = answers[firstNameIndex];
             String phone = answers[phoneIndex];
             String lastName = answers[lastNameIndex];
             String mail = answers[mailIndex];
             String gender = answers[genderIndex];
             int age = Integer.parseInt(answers[ageIndex]);
-            for(int j=0; j<nbInterests; j++){
-                interests[j] = Integer.parseInt(answers[firstInterestIndex+j]);
+            int j = 0;
+            while(interestIndexes[j]>=0){
+                interests[j] = Integer.parseInt(answers[interestIndexes[j]]);
             }
             String facebook = answers[facebookIndex];
-            String country = answers[countryIndex];
             //String languages = answers[35];
             //String studylevel = answers[34];
-            String wish1, wish2, wish3;
+            String wish1="";
+            String wish2="";
+            String wish3="";
+            
             if(wish1Index>0) wish1 = answers[wish1Index];
             if(wish2Index>0) wish2 = answers[wish2Index];
             if(wish3Index>0) wish3 = answers[wish3Index];
@@ -129,13 +140,13 @@ public class FileHandler {
             if(maxBuddyIndex>0) nb_buddies = Integer.parseInt(answers[maxBuddyIndex]);
             
             
-            for(int j = 0; j<answers.length; j++){
-            if(i==4) System.out.println(answers[j]);
+            for(int k = 0; k<answers.length; k++){
+            if(i==4) System.out.println(answers[k]);
             }
             
             
-            //LocalBuddy buddy = new LocalBuddy(firstName,lastName,gender, country,mail,phone,age,interests,facebook,studylevel,languages,nb_buddies,wish1,wish2,wish3);
-            //if(!ESNbuddyMatcher.window.exists(buddy)) ESNbuddyMatcher.window.addLocalBuddy(buddy);
+            LocalBuddy buddy = new LocalBuddy(firstName,lastName,gender, "N/A",mail,phone,age,interests,facebook,"N/A","N/A",nb_buddies,wish1,wish2,wish3);
+            if(!ESNbuddyMatcher.window.exists(buddy)) ESNbuddyMatcher.window.addLocalBuddy(buddy);
         } 
         
     }

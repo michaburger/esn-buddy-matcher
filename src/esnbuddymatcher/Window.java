@@ -76,6 +76,7 @@ public class Window extends javax.swing.JFrame {
     public void localsImported(){
         localsImported = true;
         localsValue.setText(localBuddies.size()+"");
+        ESNbuddyMatcher.imp.setVisible(false);
     }
     
     

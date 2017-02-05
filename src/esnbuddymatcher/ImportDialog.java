@@ -16,7 +16,6 @@ public class ImportDialog extends javax.swing.JFrame {
     private int headerLine = 0;
     private String buddyList = "";
     private int typeImporting;
-    private JComboBox[] comboList;
 
     /**
      * Creates new form ImportDialog
@@ -26,46 +25,16 @@ public class ImportDialog extends javax.swing.JFrame {
         adaptLineButtons();
         localButton.setEnabled(false);
         incomingButton.setEnabled(false);
-   
+        jComboBox10.setEnabled(false);
     }
     
     public void setBuddyList(String fileContent){
         buddyList = fileContent;
     }
     
-    private void initComboList(){
-        comboList[0] = ibox0;
-        comboList[1] = ibox1;
-        comboList[2] = ibox2;
-        comboList[3] = ibox3;
-        comboList[4] = ibox4;
-        comboList[5] = ibox5;
-        comboList[6] = ibox6;
-        comboList[7] = ibox7;
-        comboList[8] = ibox8;
-        comboList[9] = ibox9;
-        comboList[10] = ibox10;
-        comboList[11] = ibox11;
-        comboList[12] = ibox12;
-        comboList[13] = ibox13;
-        comboList[14] = ibox14;
-        comboList[15] = ibox15;
-        comboList[16] = ibox16;
-        comboList[17] = ibox17;
-        comboList[18] = ibox18;
-        comboList[19] = ibox19;
-        comboList[20] = ibox20;
-        comboList[21] = ibox21;
-        comboList[22] = ibox22;
-        comboList[23] = ibox23;
-        comboList[24] = ibox24;
-        comboList[25] = ibox25;
-        comboList[26] = ibox26;
-        comboList[27] = ibox27;
-        comboList[28] = ibox28;
-        comboList[29] = ibox29;  
+    private int checkIntBox(JComboBox box){
+        return box.getSelectedIndex()-1;
     }
-    
     
     protected void setHeader(){
         tableHeaderField.setText(getLine(headerLine));
@@ -83,7 +52,7 @@ public class ImportDialog extends javax.swing.JFrame {
     
     private void readHeaderLine(){
         String header = getLine(headerLine);
-        String[] lines = header.split(",");
+        String[] lines = header.split("\\|");
         
         String textOutput = "";
         
@@ -110,6 +79,7 @@ public class ImportDialog extends javax.swing.JFrame {
             addItemsToBoxes(lines.length,jComboBox12);
             addItemsToBoxes(lines.length,jComboBox13);
             addItemsToBoxes(lines.length,jComboBox14);
+            addItemsToBoxes(lines.length,jComboBox15);
             addItemsToBoxes(lines.length,ibox0);
             addItemsToBoxes(lines.length,ibox1);
             addItemsToBoxes(lines.length,ibox2);
@@ -127,6 +97,7 @@ public class ImportDialog extends javax.swing.JFrame {
             addItemsToBoxes(lines.length,ibox16);
             addItemsToBoxes(lines.length,ibox15);
             addItemsToBoxes(lines.length,ibox14);
+            addItemsToBoxes(lines.length,ibox15);
             addItemsToBoxes(lines.length,ibox13);
             addItemsToBoxes(lines.length,ibox12);
             addItemsToBoxes(lines.length,ibox11);
@@ -145,7 +116,7 @@ public class ImportDialog extends javax.swing.JFrame {
     
     private void addItemsToBoxes(int nbVar, javax.swing.JComboBox<String> comboBox){
         comboBox.addItem("--");
-        for(int i=1; i< nbVar+1; i++){
+        for(int i=1; i< nbVar; i++){
             comboBox.addItem(""+i);
         }
     }
@@ -254,6 +225,8 @@ public class ImportDialog extends javax.swing.JFrame {
         ibox22 = new javax.swing.JComboBox<>();
         ibox21 = new javax.swing.JComboBox<>();
         ibox20 = new javax.swing.JComboBox<>();
+        jLabel29 = new javax.swing.JLabel();
+        jComboBox15 = new javax.swing.JComboBox<>();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -348,7 +321,7 @@ public class ImportDialog extends javax.swing.JFrame {
         jLabel14.setText("Study level");
 
         jLabel15.setFont(new java.awt.Font("Ubuntu", 0, 10)); // NOI18N
-        jLabel15.setText("Attention: The following data has to be separated by commas if multiple values");
+        jLabel15.setText("Attention: The language data has to be separated by commas if multiple values");
 
         jLabel16.setText("Languages");
 
@@ -399,6 +372,8 @@ public class ImportDialog extends javax.swing.JFrame {
             }
         });
 
+        jLabel29.setText("Gender");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -448,7 +423,11 @@ public class ImportDialog extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel16)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel29)
+                                        .addGap(32, 32, 32)
+                                        .addComponent(jComboBox15, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel17)
                                     .addComponent(jLabel20)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -620,7 +599,9 @@ public class ImportDialog extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
-                            .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel29)
+                            .addComponent(jComboBox15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -777,41 +758,147 @@ public class ImportDialog extends javax.swing.JFrame {
 
     private void readFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readFileButtonActionPerformed
         
-        initComboList();
+        
         
         if(typeImporting == ESNbuddyMatcher.LOCAL){
             
             //determine nb Interests
-            int fillCounter = 0;
+            int iCount = 0;
             int interestInd[] = new int[30];
-            for(int i=0; i<30; i++){
-                if(comboList[i].getSelectedIndex()>0){
-                    interestInd[fillCounter] = comboList[i].getSelectedIndex();
-                    fillCounter++;
-                }
-            }
+            
+            //TODO: find solution with jComboBox array...
+            interestInd[iCount] = checkIntBox(ibox0);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox1);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox2);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox3);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox4);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox5);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox6);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox7);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox8);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox9);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox10);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox11);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox12);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox13);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox14);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox15);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox16);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox17);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox18);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox19);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox20);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox21);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox22);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox23);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox24);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox25);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox26);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox27);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox28);
+            if(interestInd[iCount]>=0) iCount++;
+            
+            interestInd[iCount] = checkIntBox(ibox29);
+            if(interestInd[iCount]>=0) iCount++;
             
             //fill rest with -1
-            for(int i=fillCounter; i<30; i++){
+            for(int i=iCount; i<30; i++){
                 interestInd[i] = -1;
             }
             
             /*
-             int nbInterests, 
-            int firstInterestIndex, int firstNameIndex, int lastNameIndex,
-            int phoneIndex, int mailIndex, int genderIndex, int ageIndex, 
-            int facebookIndex, int countryIndex, int[] wishList, int[] interestIndexes,
-            int wish1Index, int wish2Index, int wish3Index, int maxBuddyIndex
-           
-            if(ESNbuddyMatcher.window.getFileHandler().readLocalBuddies(buddyList,
-                    headerLine, )== true){
-                ESNbuddyMatcher.window.localsImported();
+            System.out.println("nb interests: "+iCount);
+            for(int i=0; i<30; i++){
+                System.out.print(" "+interestInd[i]+",");
             }
-            else
-            {
-                readOutputField.setText("Error reading local file");
-            }
-            */
+ */
+            
+            int firstNameIndex = jComboBox1.getSelectedIndex()-1;
+            int lastNameIndex = jComboBox2.getSelectedIndex()-1;
+            int phoneIndex = jComboBox5.getSelectedIndex()-1;
+            int mailIndex = jComboBox4.getSelectedIndex()-1;
+            int genderIndex = jComboBox15.getSelectedIndex()-1;
+            int ageIndex = jComboBox6.getSelectedIndex()-1;
+            int facebookIndex = jComboBox7.getSelectedIndex()-1;
+            int wish1Index = jComboBox12.getSelectedIndex()-1;
+            int wish2Index = jComboBox11.getSelectedIndex()-1;
+            int wish3Index = jComboBox13.getSelectedIndex()-1;
+            int maxBuddyIndex = jComboBox14.getSelectedIndex()-1;
+            
+            //check data and plot error messages
+            if(firstNameIndex < 0) readOutputField.setText("First name is mandatory");
+            if(lastNameIndex < 0) readOutputField.setText("Last name is mandatory");
+            if(phoneIndex < 0) readOutputField.setText("Phone is mandatory");
+            if(mailIndex < 0) readOutputField.setText("Mail is mandatory");
+            if(genderIndex < 0) readOutputField.setText("Gender is mandatory");
+            if(ageIndex < 0) readOutputField.setText("Age is mandatory");
+            if(facebookIndex < 0) readOutputField.setText("Facebook contact is mandatory");
+            if(wish1Index < 0 || wish2Index < 0 || wish3Index < 0) readOutputField.setText("Country wishes are mandatory");
+            if(maxBuddyIndex < 0) readOutputField.setText("Max buddy is mandatory");
+            
+            ESNbuddyMatcher.window.getFileHandler().readLocalBuddies(buddyList,
+                    headerLine, iCount, firstNameIndex, lastNameIndex, phoneIndex,
+                    mailIndex, genderIndex, ageIndex, facebookIndex,
+                    interestInd, wish1Index, wish2Index, wish3Index, maxBuddyIndex);
+            ESNbuddyMatcher.window.localsImported();
+            
+            
         //Window local buddies imported
             
         }
@@ -899,6 +986,7 @@ public class ImportDialog extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox12;
     private javax.swing.JComboBox<String> jComboBox13;
     private javax.swing.JComboBox<String> jComboBox14;
+    private javax.swing.JComboBox<String> jComboBox15;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox35;
@@ -939,6 +1027,7 @@ public class ImportDialog extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
